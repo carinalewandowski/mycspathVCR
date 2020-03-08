@@ -8,4 +8,4 @@ def welcome():
 # from https://stackabuse.com/deploying-a-flask-application-to-heroku/
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
-    app.run()
+    app.run(threaded=True, port=5000)
