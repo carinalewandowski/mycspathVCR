@@ -1,1 +1,1 @@
-web: gunicorn app:mycspath
+web: gunicorn mycspath:app
