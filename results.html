@@ -49,23 +49,16 @@
 
     <header class="bg-primary text-white">
         <div class="container text-center">
-            <h1>Welcome to myCSPath.</h1>
-            <p class="lead">Select filters to start planning your path through CS education!</p>
+            <h1>The following courses matched at least one of your selections!</h1>
+            <p class="lead">Select the courses that interest you most and the prerequisites you've already completed.</p>
         </div>
     </header>
 
     <body class="bg-primary text-white">
             <div class="container text-center">
-                <h1>Select Filters:</h1>
-                <form action='results' method='POST'>
-                    <input type="checkbox" id="tag1" name="tag" value="design">
-                    <label for="tag1"> design</label><br>
-                    <input type="checkbox" id="tag2" name="tag" value="applications">
-                    <label for="tag2"> applications</label><br>
-                    <input type="checkbox" id="tag3" name="tag" value="systems">
-                    <label for="tag3"> systems</label><br>
-                    <input type="submit">
-                </form>
+            {% for result in results %}
+                <p class="lead">{{ result.title }}</p>
+            {% endfor %}
             </div>
     </body>
 

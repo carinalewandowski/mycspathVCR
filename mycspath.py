@@ -1,6 +1,13 @@
 from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template, session
+from database import Database
+from sqlalchemy import create_engine, Column, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 app = Flask(__name__, template_folder='.')
+
+# connect to database
+database = Database()
 
 @app.route('/')
 def landing():
@@ -8,11 +15,27 @@ def landing():
     response = make_response(html)
     return response
 
-@app.route('/home')
+@app.route('/home', methods=['GET', 'POST'])
 def home():
     html = render_template('home.html')
     response = make_response(html)
     return response
+
+@app.route('/results', methods=['GET', 'POST'])
+def results():
+    if request.method == 'POST':
+        tags = request.form.getlist('tag')
+        for tag in tags:
+            print(tag)
+
+        results = database.filter_tags(tags)
+        for result in results:
+            print(result.title)
+        print("here")
+        
+        html = render_template('results.html', results=results)
+        response = make_response(html)
+        return response
 
 @app.route('/about')
 def about():
