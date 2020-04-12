@@ -30,8 +30,7 @@ def landing():
 def home():
     casauth = CASClient()
     netid = casauth.authenticate()
-    print(netid)
-    html = render_template('home.html')
+    html = render_template('home.html', netid=netid)
     response = make_response(html)
     return response
 
