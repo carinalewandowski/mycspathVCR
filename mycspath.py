@@ -29,7 +29,8 @@ def landing():
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     casauth = CASClient()
-    casauth.authenticate()
+    netid = casauth.authenticate()
+    print(netid)
     html = render_template('home.html')
     response = make_response(html)
     return response
