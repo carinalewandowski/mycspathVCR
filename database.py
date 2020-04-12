@@ -1,8 +1,18 @@
-# my database: postgresql://carinalewandowski:qwerty@127.0.0.1/test_db
+# my database: postgresql://iwmrbkqwyomjyv:d225ea16492b84cf1dbaafd0c9a805696d8077814197239d92cc4bb692d94cb2@ec2-18-210-51-239.compute-1.amazonaws.com/d6jlofmjviv3dl
+# --------------------------------------------------------------------------
+#
+# MyCSPath
+# database.py
+# author: Carina Lewandowski
+#
+# --------------------------------------------------------------------------
+
 
 # --------------------------------------------------------------------------
 # sources:
 # https://www.compose.com/articles/using-postgresql-through-sqlalchemy/
+# --------------------------------------------------------------------------
+
 from sqlalchemy import create_engine, Column, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -10,7 +20,6 @@ from sqlalchemy.dialects.postgresql import ARRAY
 
 
 db_string = "postgresql://iwmrbkqwyomjyv:d225ea16492b84cf1dbaafd0c9a805696d8077814197239d92cc4bb692d94cb2@ec2-18-210-51-239.compute-1.amazonaws.com/d6jlofmjviv3dl"
-# db_string = "postgresql://carinalewandowski:qwerty@127.0.0.1/test_db"
 
 db = create_engine(db_string)
 base = declarative_base()

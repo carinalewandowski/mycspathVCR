@@ -1,9 +1,16 @@
+# --------------------------------------------------------------------------
+#
+# MyCSPath
+# mycspath.py
+# author: Carina Lewandowski
+#
+# --------------------------------------------------------------------------
+
 from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template, session
 from database import Database
-from sqlalchemy import create_engine, Column, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from CASClient import CASClient
+
 app = Flask(__name__, template_folder='.')
 
 # connect to database
@@ -17,6 +24,8 @@ def landing():
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
+    casauth = CASClient()
+    casauth.authenticate()
     html = render_template('home.html')
     response = make_response(html)
     return response
