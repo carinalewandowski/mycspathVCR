@@ -11,17 +11,17 @@
     <title>MyCSPath: About</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{{ url_for('static', filename='css/scrolling-nav.css') }}" rel="stylesheet">
 
 </head>
 
-<body id="page-top">
+<body id="page-top" class="bg-primary">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-coral fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand js-scroll-trigger" href="home">MyCSPath</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -34,7 +34,7 @@
                         <a class="nav-link js-scroll-trigger" href="home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="about">About</a>
+                        <a class="nav-link js-scroll-trigger" href="about"><strong>About</strong></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="saved">Saved Paths</a>
@@ -48,18 +48,17 @@
     </nav>
 
     <header class="bg-primary text-white">
-        <div class="container text-center">
-            <h1>About MyCSPath</h1>
-            <p class="lead">The goal of my project is to eliminate the disparity between those who are 
+        <div class="container text-center" style="margin-top:12%">
+            <h1 class="shadow-white">About MyCSPath</h1>
+            <br>
+            <p class="lead">The goal of MyCSPath is to eliminate the disparity between those who are 
                 interested in computer science and those who are actually compelled to enroll in COS or 
-                computer science-related courses by providing an interest-based, goal-oriented platform for 
-                creating a multi-semester course path in computer science education. Furthermore, MyCOSPath 
-                will enable Princeton students of diverse concentrations to make computer science a part of 
-                their academic experience in a way that best fulfills their individual needs and interests. 
-                This objective is important as it aims to make the broader discipline of computer science 
-                accessible to a wider audience of students, as well as provide these students with an 
-                opportunity to learn computer science skills through a more manageable approach that works 
-                with their current skill sets and ambitions.
+                computer science-related courses by providing a platform for creating a multi-semester 
+                course path through computer science education. Furthermore, MyCSPath will enable 
+                Princeton students of diverse concentrations to make computer science a part of 
+                their academic experience in a way that best fulfills their individual needs and interests
+                in an effort to make the broader discipline of computer science accessible to a wider audience
+                 of students.
             </p>
         </div>
     </header>
@@ -67,7 +66,7 @@
 
 
     <!-- Footer -->
-    <footer class="py-3 bg-dark fixed-bottom">
+    <footer class="py-2 bg-coral fixed-bottom">
         <div class="container">
             <p class="m-0 text-center text-white">Copyright &copy; MyCSPath 2020</p>
         </div>

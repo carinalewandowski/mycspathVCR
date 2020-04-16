@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>MyCSPath: Saved Paths</title>
+    <title>MyCSPath: My Path</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
@@ -37,7 +37,7 @@
                         <a class="nav-link js-scroll-trigger" href="about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="saved"><strong>Saved Paths</strong></a>
+                        <a class="nav-link js-scroll-trigger" href="saved">Saved Paths</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="profile">My Profile</a>
@@ -49,17 +49,25 @@
 
     <header class="bg-primary text-white">
         <div class="container text-center">
-            <h1 class="shadow-white">Saved Paths</h1>
-            <p class="lead">View your previously created course paths below.</p>
+            <h1>Your Path:</h1>
         </div>
     </header>
 
-
+    <body class="bg-primary text-white">
+            <div class="container text-center">
+            {% for bundle in bundles %}
+                {% for pq in bundle.prereqs %}
+                    <p class="lead">{{ pq }}</p>
+                {% endfor %}
+                <p class="lead">{{ bundle.course }}</p>
+            {% endfor %}
+            </div>
+    </body>
 
     <!-- Footer -->
-    <footer class="py-2 bg-lpurp fixed-bottom">
+    <footer class="py-2 bg-coral fixed-bottom">
         <div class="container">
-            <p class="m-0 text-center text-charcoal">Copyright &copy; MyCSPath 2020</p>
+            <p class="m-0 text-center text-white">Copyright &copy; MyCSPath 2020</p>
         </div>
         <!-- /.container -->
     </footer>

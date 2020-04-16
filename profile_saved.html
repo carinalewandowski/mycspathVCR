@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>MyCSPath: Saved Paths</title>
+    <title>MyCSPath: My Profile</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body id="page-top" class="bg-primary">
+<body id="page-top" class="bg-white" style="padding-bottom:10%">
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-coral fixed-top" id="mainNav">
@@ -37,29 +37,45 @@
                         <a class="nav-link js-scroll-trigger" href="about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="saved"><strong>Saved Paths</strong></a>
+                        <a class="nav-link js-scroll-trigger" href="saved">Saved Paths</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="profile">My Profile</a>
+                        <a class="nav-link js-scroll-trigger" href="profile"><strong>My Profile</strong></a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <header class="bg-primary text-white">
+    <header class="text-white">
         <div class="container text-center">
-            <h1 class="shadow-white">Saved Paths</h1>
-            <p class="lead">View your previously created course paths below.</p>
+            <h1 class="shadow-lpurp">My Profile</h1>
+            <p class="lead">View your academic information below.</p>
+            <br>
         </div>
     </header>
+
+    <!-- Page Content -->
+    <div class="container bg-lpurp text-center" style="border-radius: 30px; max-width: 600px"><br>
+        <p><strong>Netid: </strong> {{ profile.netid }}</p>
+        <p><strong>Name: </strong> {{ profile.user_name }}</p>
+        <p><strong>Year: </strong> {{ profile.class_yr }}</p>
+        <p><strong>Concentration: </strong> {{ profile.degree }} {{ profile.concentration }}</p>
+        <p><strong>Goals: </strong> {{profile.goals}}</p><br>
+    </div>
+    <br><br>
+    <form action='edit_profile' method='POST'>
+        <div class="container text-center">
+            <button type="submit" class="btn btn-primary" style="width: 150px">Edit Profile</button>
+        </div>
+    </form>
 
 
 
     <!-- Footer -->
-    <footer class="py-2 bg-lpurp fixed-bottom">
+    <footer class="py-2 bg-coral fixed-bottom">
         <div class="container">
-            <p class="m-0 text-center text-charcoal">Copyright &copy; MyCSPath 2020</p>
+            <p class="m-0 text-center text-white">Copyright &copy; MyCSPath 2020</p>
         </div>
         <!-- /.container -->
     </footer>

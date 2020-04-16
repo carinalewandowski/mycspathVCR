@@ -8,7 +8,7 @@
 
 from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template, session
-from database import Database
+from database import Database, Profiles
 from CASClient import CASClient
 
 app = Flask(__name__, template_folder='.')
@@ -19,8 +19,28 @@ app.secret_key = SECRET_KEY
 
 # connect to database
 database = Database()
+profiles = Profiles()
+
+# TESTING
+# database = Database()
+# results = session.query(database)
+# tags = []
+# tags.append("design")
+# tags.append("systems")
+# filtered_results = database.filter_tags(tags)
+# results = []
+# prerequisites = []
+# for result in filtered_results:
+#     results.append(result)
+# for result in filtered_results:
+#     prerequisites.append(result.prerequisites)
+# unordered_path = database.make_bundles(results, prerequisites)
+# for bundle in unordered_path:
+#     print(bundle.course)
+    # print(bundle.prereqs)
 
 @app.route('/')
+@app.route('/index')
 def landing():
     html = render_template('index.html')
     response = make_response(html)
@@ -30,43 +50,123 @@ def landing():
 def home():
     casauth = CASClient()
     netid = casauth.authenticate()
+    #netid = "carinal"
     html = render_template('home.html', netid=netid)
     response = make_response(html)
     return response
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
-    if request.method == 'POST':
-        tags = request.form.getlist('tag')
-        for tag in tags:
-            print(tag)
+    casauth = CASClient()
+    netid = casauth.authenticate()
 
-        results = database.filter_tags(tags)
-        for result in results:
-            print(result.title)
-        print("here")
+    if request.method == 'POST':
+        langs = request.form.getlist('lang')
+        tags = request.form.getlist('tag')
+        
+        results_tags = database.filter_tags(tags)
+        results_langs = database.filter_langs(langs)
+        results = database.merge_results(results_langs, results_tags)
         
         html = render_template('results.html', results=results)
         response = make_response(html)
         return response
 
+@app.route('/path', methods=['GET', 'POST'])
+def path():
+    casauth = CASClient()
+    netid = casauth.authenticate()
+
+    if request.method == 'POST':
+        courses = request.form.getlist('courses')
+        prereqs = request.form.getlist('prereqs')
+        for course in courses:
+            print(course)
+        for pq in prereqs:
+            print(pq)
+        result_list = database.make_result_list(courses)
+        for result in result_list:
+            print(result.course)
+
+        bundles = database.make_bundles(result_list, prereqs)
+        for bundle in bundles:
+            print(bundle.course)
+            print(bundle.prereqs)
+        
+        html = render_template('path.html', bundles=bundles)
+        response = make_response(html)
+        return response
+
 @app.route('/about')
 def about():
+    casauth = CASClient()
+    netid = casauth.authenticate()
+
     html = render_template('about.html')
     response = make_response(html)
     return response
 
 @app.route('/saved')
 def saved():
+    casauth = CASClient()
+    netid = casauth.authenticate()
+
     html = render_template('saved.html')
     response = make_response(html)
     return response
 
 @app.route('/profile')
-def profiles():
-    html = render_template('profile.html')
-    response = make_response(html)
-    return response
+def profile():
+    casauth = CASClient()
+    netid = casauth.authenticate()
+    #netid = "dk12"
+    if not profiles.check_exists(netid):
+        html = render_template('profile.html')
+        response = make_response(html)
+        return response
+    else:
+        profile = profiles.get_row(netid)
+        html = render_template('profile_saved.html', profile=profile)
+        response = make_response(html)
+        return response
+
+@app.route('/profile_saved', methods=['GET', 'POST'])
+def profile_saved():
+    casauth = CASClient()
+    netid = casauth.authenticate()
+    #netid = "dk12"
+    if request.method == 'POST':
+        # get fields from edit form
+        name = request.form.get('Name')
+        class_yr = request.form.get('Class Year')
+        degree = request.form.get('Degree')
+        concentration = request.form.get('Concentration')
+        goals = request.form.get('Goals')
+        # remove existing row
+        if profiles.check_exists(netid):
+            profile = profiles.get_row(netid)
+            profiles.remove_row(profile)
+        # add updated row
+        profiles.add_profile(netid, name, class_yr, degree, concentration, goals)
+        # get new row
+        profile = profiles.get_row(netid)
+
+        html = render_template('profile_saved.html', profile=profile)
+        response = make_response(html)
+        return response
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+def edit_profile():
+    casauth = CASClient()
+    netid = casauth.authenticate()
+    #netid = "dk12"
+    if request.method == 'POST':
+        profile = profiles.get_row(netid)
+        html = render_template('edit_profile.html', profile=profile)
+        response = make_response(html)
+        return response
+
+
 
 # from https://stackabuse.com/deploying-a-flask-application-to-heroku/
 if __name__ == '__main__':

@@ -40,7 +40,7 @@
                         <a class="nav-link js-scroll-trigger" href="saved">Saved Paths</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="profile"><strong>My Profile</strong></a>
+                        <a class="nav-link js-scroll-trigger" href="profile">My Profile</a>
                     </li>
                 </ul>
             </div>
@@ -64,7 +64,7 @@
                         <p>Name:</p>
                     </label>
                     <div class="col-md-8 input-group">
-                        <input id="Name" name="Name" type="text" placeholder="Jane Doe" class="form-control input-md">
+                        <input id="Name" name="Name" type="text" value="{{ profile.user_name }}" class="form-control input-md">
                     </div>
                 </div>
                 <br>
@@ -75,7 +75,7 @@
                             Year:</p>
                     </label>
                     <div class="col-md-8 input-group">
-                        <select id="Class Year" name="Class Year" type="text" placeholder="202X" class="form-control input-md">
+                        <select id="Class Year" name="Class Year" type="text" value="{{ profile.class_yr }}" class="form-control input-md">
                             <option>
                                 <p>2024</p>
                             </option>
@@ -98,7 +98,7 @@
                         <p>Concentration:</p>
                     </label>
                     <div class="col-md-4 input-group" style="float: left">
-                        <select id="Degree" name="Degree" type="text" placeholder="BSE" class="form-control input-md>">
+                        <select id="Degree" name="Degree" type="text" value="{{ profile.degree }}" class="form-control input-md>">
                             <option>
                                 <p>AB</p>
                             </option>
@@ -108,7 +108,8 @@
                         </select>
                     </div>
                     <div class="col-md-4 input-group" style="float: right">
-                        <input id="Concentration" name="Concentration" type="text" placeholder="Computer Science" class="form-control input-md">
+                        <input id="Concentration" name="Concentration" type="text" value="{{ profile.concentration }}"
+                            class="form-control input-md">
                     </div>
                 </div>
                 <br>
@@ -118,10 +119,7 @@
                         <p>Goals:</p>
                     </label>
                     <div class="col-md-8 input-group">
-                        <textarea class="form-control input-md" rows="5" id="Goals" name="Goals" type="text"
-                            placeholder="- learn python
-                    - take an ML class
-                    - get a COS certificate?"></textarea>
+                        <textarea class="form-control input-md" rows="5" id="Goals" name="Goals" type="text" value="{{ profile.goals }}"></textarea>
                     </div>
                 </div>
                 <br>
@@ -131,7 +129,6 @@
             <button type="submit" class="btn btn-primary" style="width: 150px">Save</button>
         </div>
     </form>
-
 
 
     <!-- Footer -->
