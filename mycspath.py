@@ -8,7 +8,7 @@
 
 from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template, session
-from database import Database, Profiles
+from database import Database, Profiles, Paths
 from CASClient import CASClient
 
 app = Flask(__name__, template_folder='.')
@@ -20,6 +20,7 @@ app.secret_key = SECRET_KEY
 # connect to database
 database = Database()
 profiles = Profiles()
+paths = Paths()
 
 # TESTING
 # database = Database()
@@ -49,7 +50,7 @@ def landing():
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     casauth = CASClient()
-    netid = casauth.authenticate()
+    netid = casauth.authenticate().rstrip()
     #netid = "carinal"
     html = render_template('home.html', netid=netid)
     response = make_response(html)
@@ -58,7 +59,7 @@ def home():
 @app.route('/results', methods=['GET', 'POST'])
 def results():
     casauth = CASClient()
-    netid = casauth.authenticate()
+    netid = casauth.authenticate().rstrip()
 
     if request.method == 'POST':
         langs = request.form.getlist('lang')
@@ -75,7 +76,7 @@ def results():
 @app.route('/path', methods=['GET', 'POST'])
 def path():
     casauth = CASClient()
-    netid = casauth.authenticate()
+    netid = casauth.authenticate().rstrip()
 
     if request.method == 'POST':
         courses = request.form.getlist('courses')
@@ -93,6 +94,20 @@ def path():
             print(bundle.course)
             print(bundle.prereqs)
         
+        new_bundles = database.remove_duplicate_prereqs(bundles)
+        for bundle in new_bundles:
+            print(bundle.course)
+            print("------------")
+            print(bundle.prereqs)
+            print("\n")
+        
+        more_bundles = database.remove_duplicate_courses(new_bundles)
+        for bundle in more_bundles:
+            print(bundle.course)
+            print("------------")
+            print(bundle.prereqs)
+            print("\n")
+
         html = render_template('path.html', bundles=bundles)
         response = make_response(html)
         return response
@@ -100,25 +115,46 @@ def path():
 @app.route('/about')
 def about():
     casauth = CASClient()
-    netid = casauth.authenticate()
+    netid = casauth.authenticate().rstrip()
 
     html = render_template('about.html')
     response = make_response(html)
     return response
 
-@app.route('/saved')
+@app.route('/saved', methods=['GET', 'POST'])
 def saved():
     casauth = CASClient()
-    netid = casauth.authenticate()
+    netid = casauth.authenticate().rstrip()
+    #netid = 'dk12'
 
-    html = render_template('saved.html')
+    # add new path to db
+    if request.method == 'POST':
+        path = request.form.getlist('dragged')
+        title = request.form.get('title')
+        print(title)
+        for item in path:
+            print(item)
+        print("here")
+        paths.add_to_dict(netid, title, path)
+    
+    # render saved paths on page
+    result = paths.get_row(netid)
+    current_dict = {}
+    current_dict = result.paths
+    for title, path in current_dict.items():
+        print(title + ":")
+        print("------------")
+        for course in path:
+            print(course)
+
+    html = render_template('saved.html', current_dict=current_dict)
     response = make_response(html)
     return response
 
 @app.route('/profile')
 def profile():
     casauth = CASClient()
-    netid = casauth.authenticate()
+    netid = casauth.authenticate().rstrip()
     #netid = "dk12"
     if not profiles.check_exists(netid):
         html = render_template('profile.html')
@@ -133,21 +169,23 @@ def profile():
 @app.route('/profile_saved', methods=['GET', 'POST'])
 def profile_saved():
     casauth = CASClient()
-    netid = casauth.authenticate()
+    netid = casauth.authenticate().rstrip()
     #netid = "dk12"
     if request.method == 'POST':
+        btn_type = request.form.get('btn_type')
+        if btn_type == 'Save':
         # get fields from edit form
-        name = request.form.get('Name')
-        class_yr = request.form.get('Class Year')
-        degree = request.form.get('Degree')
-        concentration = request.form.get('Concentration')
-        goals = request.form.get('Goals')
-        # remove existing row
-        if profiles.check_exists(netid):
-            profile = profiles.get_row(netid)
-            profiles.remove_row(profile)
-        # add updated row
-        profiles.add_profile(netid, name, class_yr, degree, concentration, goals)
+            name = request.form.get('Name')
+            class_yr = request.form.get('Class Year')
+            degree = request.form.get('Degree')
+            concentration = request.form.get('Concentration')
+            goals = request.form.get('Goals')
+            # remove existing row
+            if profiles.check_exists(netid):
+                profile = profiles.get_row(netid)
+                profiles.remove_row(profile)
+            # add updated row
+            profiles.add_profile(netid, name, class_yr, degree, concentration, goals)
         # get new row
         profile = profiles.get_row(netid)
 
@@ -158,7 +196,7 @@ def profile_saved():
 @app.route('/edit_profile', methods=['GET', 'POST'])
 def edit_profile():
     casauth = CASClient()
-    netid = casauth.authenticate()
+    netid = casauth.authenticate().rstrip()
     #netid = "dk12"
     if request.method == 'POST':
         profile = profiles.get_row(netid)

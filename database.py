@@ -16,7 +16,7 @@
 from sqlalchemy import create_engine, Column, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.dialects.postgresql import ARRAY, INTEGER
+from sqlalchemy.dialects.postgresql import ARRAY, INTEGER, JSON
 
 # PostgreSQL URL
 db_string = "postgresql://iwmrbkqwyomjyv:d225ea16492b84cf1dbaafd0c9a805696d8077814197239d92cc4bb692d94cb2@ec2-18-210-51-239.compute-1.amazonaws.com/d6jlofmjviv3dl"
@@ -31,6 +31,10 @@ class Bundle:
     def __init__(self, course, prereqs):
         self.course = course
         self.prereqs = prereqs
+
+# --------------------------------------------------------------------------
+# COURSES DATABASE
+# --------------------------------------------------------------------------
 
 class Database(base):
     __tablename__ = 'courses_subset'
@@ -94,6 +98,57 @@ class Database(base):
             bundle = Bundle(result.course, not_taken)
             unordered_path.append(bundle)
         return unordered_path
+    
+    # removed duplicate prerequisites
+    def remove_duplicate_prereqs(self, bundles):
+        # build dict pq: courses
+        pq_dict = {}
+        for bundle in bundles:
+            for pq in bundle.prereqs:
+                # if pq already mapped, add the corresponding course to value list
+                if pq in pq_dict:
+                    value_list = pq_dict[pq]
+                    value_list.append(bundle.course)
+                    pq_dict[pq] = value_list
+                # if pq not mapped, create entry with corresponding course 
+                else:
+                    value_list = []
+                    value_list.append(bundle.course)
+                    pq_dict[pq] = value_list
+        for bundle in bundles:
+            new_pq_list = []
+            for pq in bundle.prereqs:
+                if pq in pq_dict:
+                    courses = pq_dict[pq]
+                    pq_str = pq + " (needed for "
+                    courses_left = len(courses)
+                    for course in courses:
+                        if courses_left > 1:
+                            pq_str+= course +", "
+                            courses_left-=1
+                        else:
+                            pq_str+= course + ")"
+                    new_pq_list.append(pq_str)
+                pq_dict.pop(pq, None)
+            bundle.prereqs = new_pq_list
+        return bundles
+    
+    # remove courses that are prereqs for other courses
+    def remove_duplicate_courses(self, bundles):
+        for bundle in bundles:
+            for comp in bundles:
+                if not bundle == comp:
+                    prereqs = comp.prereqs
+                    for pq in prereqs:
+                        if bundle.course in pq[0:7]:
+                            bundle.course = ''
+        return bundles
+
+
+            
+                    
+        
+
 
     # takes list of courses and returns corresponding list of db entries
     def make_result_list(self, courses):
@@ -105,6 +160,10 @@ class Database(base):
             print("appending result with course code: " + result.course)
             result_list.append(result)
         return result_list
+
+# --------------------------------------------------------------------------
+# PROFILES DATABASE
+# --------------------------------------------------------------------------
 
 class Profiles(base):
     __tablename__ = 'profiles'
@@ -144,9 +203,48 @@ class Profiles(base):
         session.delete(profile)
         session.commit()
 
-results = session.query(Profiles)
-for result in results:
-    print(result.netid)
+# --------------------------------------------------------------------------
+# PATHS DATABASE
+# --------------------------------------------------------------------------
+
+class Paths(base):
+    __tablename__ = 'paths'
+    netid = Column(String, primary_key=True)
+    paths = Column(JSON)
+
+    def add_to_dict(self, netid, title, path):
+        result = self.get_row(netid)
+        current_dict = {}
+        # if row already exists w netid
+        if result is not None:
+            current_dict = result.paths
+            current_dict[title] = path
+            # delete current row
+            self.remove_row(result)
+            # add updated row
+            row = Paths(netid=netid,
+            paths=current_dict)
+            session.add(row)
+            session.commit()
+        else:
+            current_dict[title] = path
+            # add updated row
+            row = Paths(netid=netid,
+            paths=current_dict)
+            session.add(row)
+            session.commit()
+
+    def remove_row(self, result):
+        session.delete(result)
+        session.commit()
+    
+    def get_row(self, netid):
+        results = session.query(Paths)
+        for result in results:
+            if result.netid == netid:
+                return result
+        return None
+
 
 """ Session = sessionmaker(db)
 session = Session()

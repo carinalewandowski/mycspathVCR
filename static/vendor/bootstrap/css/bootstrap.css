@@ -265,6 +265,13 @@ textarea {
   line-height: inherit;
 }
 
+.rounded-input {
+  border-radius: 30px;
+  border-color: #ece5f0;
+  width: 450px;
+  border-style: dashed;
+}
+
 button,
 input {
   overflow: visible;
@@ -414,8 +421,9 @@ h6, .h6 {
 }
 
 .lead {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 300;
+  font-family: Avenir;
 }
 
 .display-1 {
@@ -3643,21 +3651,21 @@ input[type="button"].btn-block {
 
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
-  border-color: #007bff;
-  background-color: #007bff;
+  border-color: #ece5f0;
+  background-color: #ece5f0;
 }
 
 .custom-control-input:focus ~ .custom-control-label::before {
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(45, 49, 66, 0.25);
 }
 
 .custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
-  border-color: #80bdff;
+  border-color: #ece5f0;
 }
 
 .custom-control-input:not(:disabled):active ~ .custom-control-label::before {
   color: #fff;
-  background-color: #b3d7ff;
+  background-color: #ece5f0;
   border-color: #b3d7ff;
 }
 
@@ -3708,8 +3716,8 @@ input[type="button"].btn-block {
 }
 
 .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
-  border-color: #007bff;
-  background-color: #007bff;
+  border-color: #fe4a49;
+  background-color: #fe4a49;
 }
 
 .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::after {

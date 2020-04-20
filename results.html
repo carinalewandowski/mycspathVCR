@@ -18,12 +18,12 @@
 
 </head>
 
-<body id="page-top" class="bg-primary" class="bg-primary">
+<body id="page-top" class="bg-primary" style="padding-bottom:10%">
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-coral fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="home">MyCSPath</a>
+            <a class="navbar-brand js-scroll-trigger" href="home"><img src="/static/logo2.png" height="30" alt="MyCSPath logo"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -49,29 +49,36 @@
 
     <header class="bg-primary text-white">
         <div class="container text-center">
-            <h1>The following courses matched at least one of your selections!</h1><br>
+            <h1 class="shadow-white">The following courses matched at least one of your selections!</h1><br>
             <p class="lead">Select the courses that interest you most and the prerequisites you've already completed.</p><br><br>
         </div>
     </header>
 
     <body class="bg-primary text-white" style="padding-bottom: 20%">
-            <div class="container">
-                <form action='path' method='POST'>
+        <div class="container bg-white" style="border-radius: 30px; max-width: 700px; padding-bottom: 20px">
+            <form action='path' method='POST'>
+                <br>
                 {% for result in results %}
-                    <input type="checkbox" id="course" name="courses" value="{{ result.course }}">
-                    <label for="result"><p><strong>{{ result.course }}: {{ result.title }}</strong></p></label><br>
-                    <div class="container" style="padding-left: 20px">
+                <input type="checkbox" id="{{result.course}}" name="courses" value="{{ result.course }}">
+                <label for="result">
+                    <p><strong>{{ result.course }}: {{ result.title }}</strong></p>
+                </label><br>
+                <div class="container" style="padding-left: 20px">
                     {% for pq in result.prerequisites %}
-                        <input type="checkbox" id="prereq" name="prereqs" value="{{ pq }}">
-                        <label for="prereq"><p>{{ pq }}</p></label><br>
-                        <!-- p class="lead" style="text-indent: 4em">{{ pq }}</p-->
+                    <input type="checkbox" id="{{pq}}" name="prereqs" value="{{ pq }}">
+                    <label for="prereq">
+                        <p>{{ pq }}</p>
+                    </label><br>
+                    <!-- p class="lead" style="text-indent: 4em">{{ pq }}</p-->
                     {% endfor %}
-                    </div>
-                    <br>
+                </div>
+                <hr style="line-height: 5px; border-top:1px solid #ece5f0;">
                 {% endfor %}
-                <button type="submit" class="btn btn-primary">Build My Path!</button>
-                </form>
-            </div>
+                <div class="container text-center">
+                        <button type="submit" class="btn btn-primary">Build My Path!</button>
+                </div>
+            </form>
+        </div>
     </body>
 
     <!-- Footer -->

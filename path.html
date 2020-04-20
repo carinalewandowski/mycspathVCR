@@ -2,13 +2,26 @@
 <html lang="en">
 
 <head>
+    <style>
+        #div1 {
+                  width: 500px;
+                  height: 60px;
+                  padding: 10px;
+                  margin-top:10px;
+                  margin-bottom:10px;
+                  border: 1px solid #ece5f0;
+                  background-color: #ece5f0;
+                  border-radius:  30px;
+                  margin: 0 auto;
+                }
+                </style>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>MyCSPath: My Path</title>
+    <title>MyCSPath: Your Path</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
@@ -18,12 +31,12 @@
 
 </head>
 
-<body id="page-top" class="bg-primary">
+<body id="page-top" class="bg-white" style="padding-bottom:10%">
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-coral fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="home">MyCSPath</a>
+            <a class="navbar-brand js-scroll-trigger" href="home"><img src="/static/logo2.png" height="30" alt="MyCSPath logo"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -47,41 +60,108 @@
         </div>
     </nav>
 
-    <header class="bg-primary text-white">
+    <header class="text-white">
         <div class="container text-center">
-            <h1>Your Path:</h1>
+            <h1 class="shadow-lpurp">Your Path</h1>
         </div>
     </header>
 
-    <body class="bg-primary text-white">
-            <div class="container text-center">
-            {% for bundle in bundles %}
+    <div class="container text-center">
+        <p class="lead text-charcoal">Drag courses from the left column to the right column to order your path. Give it
+            a title and hit the button to save it!</p>
+        <br><br>
+        <div class="row text-center">
+            <div class="col-sm-6 text-center">
+                {% for bundle in bundles %}
                 {% for pq in bundle.prereqs %}
-                    <p class="lead">{{ pq }}</p>
+                <div id="div1" name="dragged" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div class="container text-center">
+                        <input class="lead text-center rounded-input" name="dragged" id="drag_{{pq}}" value="{{ pq }}"
+                            draggable="true" ondragstart="drag(event)">
+                    </div>
+                </div>
+                <br>
                 {% endfor %}
-                <p class="lead">{{ bundle.course }}</p>
-            {% endfor %}
+                    {% if bundle.course != '' %}
+                    <div id="div1" name="dragged" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="container text-center">
+                            <input class="lead text-center rounded-input" name="dragged" id="drag_{{bundle.course}}" value="{{ bundle.course }}"
+                                draggable="true" ondragstart="drag(event)">
+                        </div>
+                    </div>
+                    <br>
+                    {% endif %}
+                {% endfor %}
             </div>
-    </body>
-
-    <!-- Footer -->
-    <footer class="py-2 bg-coral fixed-bottom">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; MyCSPath 2020</p>
+            <form action='saved' method='POST'>
+                <div class="col-lg-6">
+                    {% for bundle in bundles %}
+                    {% for pq in bundle.prereqs %}
+                    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div><br>
+                    {% endfor %}
+                    {% if bundle.course != '' %}
+                    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div><br>
+                    {% endif %}
+                    {% endfor %}
+                    <div class="row">
+                        <span style="width: 50%; float:left">
+                            <button type="submit" class="btn btn-primary" onclick="checkComplete(this.form, document.getElementById('title').value)">Save Path</button>
+                        </span>
+                        <span style="width: 50%; float:right">
+                            <input class="lead text-center form-control" placeholder="Enter title here..." name="title" id="title"
+                                style="float: left; width: 350px">
+                        </span>
+                    </div>
+                </div>
         </div>
-        <!-- /.container -->
-    </footer>
+        </form>
+    </div>
+</body>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- Footer -->
+<footer class="py-2 bg-coral fixed-bottom">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; MyCSPath 2020</p>
+    </div>
+    <!-- /.container -->
+</footer>
 
-    <!-- Plugin JavaScript -->
-    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<!-- Bootstrap core JavaScript -->
+<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-    <!-- Custom JavaScript for this theme -->
-    <script src="js/scrolling-nav.js"></script>
+<!-- Plugin JavaScript -->
+<script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+<!-- Custom JavaScript for this theme -->
+<script src="js/scrolling-nav.js"></script>
 
 </body>
 
 </html>
+<script>
+    /* from W3 Schools Tutorial */
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+    }
+
+    function checkComplete(form, title) {
+        if (title == "") {
+            alert("Give your path a title, then save!")
+            event.preventDefault();
+        }
+        else {
+            form.submit();
+        }
+    }
+</script>
