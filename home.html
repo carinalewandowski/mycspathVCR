@@ -50,7 +50,7 @@
     <div class="container text-center text-coral">
         <header class="text-coral">
             <div class="container text-center">
-                <h1 class="shadow-lpurp">Hi, {{ netid }}! Welcome to myCSPath.</h1>
+                <h1 class="shadow-lpurp">Hi, {{ netid }}! Welcome to MyCSPath.</h1>
                 <p class="lead text-charcoal">Select filters to start planning your path through CS education!</p>
             </div>
         </header>
@@ -62,10 +62,11 @@
             </div>
             <br><br>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="container bg-lpurp" style="border-radius:  30px">
                         <br>
-                        <h3 class="text-center text-charcoal shadow-white">Tracks:</h3><hr>
+                        <h3 class="text-center text-charcoal shadow-white">Tracks:</h3>
+                        <hr>
                         <input type="checkbox" id="track1" name="tag" value="applications">
                         <label for="track1">
                             <p> applications</p>
@@ -80,28 +81,101 @@
                         </label><br><br><br>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="container bg-lpurp" style="border-radius: 30px">
                         <br>
-                        <h3 class="text-center text-charcoal shadow-white">Languages:</h3><hr>
-                        <input type="checkbox" id="lang1" name="lang" value="Python">
+                        <h3 class="text-center text-charcoal shadow-white">Languages:</h3>
+                        <hr>
+                        <input type="checkbox" id="lang1" name="lang" value="AJAX">
                         <label for="lang1">
-                            <p>Python</p>
+                            <p> AJAX</p>
                         </label><br>
-                        <input type="checkbox" id="lang2" name="lang" value="Java">
+                        <input type="checkbox" id="lang2" name="lang" value="C">
                         <label for="lang2">
-                            <p> Java</p>
+                            <p> C</p>
                         </label><br>
                         <input type="checkbox" id="lang3" name="lang" value="C++">
                         <label for="lang3">
                             <p> C++</p>
-                        </label><br><br><br>
+                        </label><br>
+                        <input type="checkbox" id="lang4" name="lang" value="CSS">
+                        <label for="lang4">
+                            <p> CSS</p>
+                        </label><br>
+                        <input type="checkbox" id="lang5" name="lang" value="Flask">
+                        <label for="lang5">
+                            <p> Flask</p>
+                        </label><br>
+                        <input type="checkbox" id="lang6" name="lang" value="Go">
+                        <label for="lang6">
+                            <p> Go</p>
+                        </label><br>
+                        <input type="checkbox" id="lang7" name="lang" value="HTML">
+                        <label for="lang7">
+                            <p> HTML</p>
+                        </label><br>
+                        <input type="checkbox" id="lang8" name="lang" value="Java">
+                        <label for="lang8">
+                            <p> Java</p>
+                        </label><br>
+                        <input type="checkbox" id="lang9" name="lang" value="JavaScript">
+                        <label for="lang9">
+                            <p> JavaScript</p>
+                        </label><br>
+                        <input type="checkbox" id="lang10" name="lang" value="Machine Language">
+                        <label for="lang2">
+                            <p> Machine Language</p>
+                        </label><br>
+                        <input type="checkbox" id="lang11" name="lang" value="Matlab">
+                        <label for="lang11">
+                            <p> Matlab</p>
+                        </label><br>
+                        <input type="checkbox" id="lang12" name="lang" value="OCalm">
+                        <label for="lang12">
+                            <p> OCalm</p>
+                        </label><br>
+                        <input type="checkbox" id="lang13" name="lang" value="PHP">
+                        <label for="lang13">
+                            <p> PHP</p>
+                        </label><br>
+                        <input type="checkbox" id="lang14" name="lang" value="Python">
+                        <label for="lang14">
+                            <p> Python</p>
+                        </label><br>
+                        <input type="checkbox" id="lang15" name="lang" value="SQL">
+                        <label for="lang15">
+                            <p> SQL</p>
+                        </label><br>
+                        <br><br>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="container bg-lpurp" style="border-radius: 30px">
                         <br>
-                        <h3 class="text-center text-charcoal shadow-white">Interest Areas:</h3><hr>
+                        <h3 class="text-center text-charcoal shadow-white">Interest Areas:</h3>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {% for tag in tags1 %}
+                                <input type="checkbox" id="{{tag}}" name="tag" value="{{tag}}">
+                                <label for="tag1">
+                                    <p> {{tag}}</p>
+                                </label><br>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6">
+                                {% for tag in tags2 %}
+                                <input type="checkbox" id="{{tag}}" name="tag" value="{{tag}}">
+                                <label for="tag1">
+                                    <p> {{tag}}</p>
+                                </label><br>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- <input type="checkbox" id="tag2" name="tag" value="algorithms">
+                        <label for="tag1">
+                            <p> algorithms</p>
+                        </label><br>
                         <input type="checkbox" id="tag1" name="tag" value="design">
                         <label for="tag1">
                             <p> design</p>
@@ -113,7 +187,8 @@
                         <input type="checkbox" id="tag3" name="tag" value="security">
                         <label for="tag3">
                             <p> security</p>
-                        </label><br><br><br>
+                        </label><br> -->
+                        <br><br>
                     </div>
                     <br>
                 </div>

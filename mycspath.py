@@ -52,7 +52,15 @@ def home():
     casauth = CASClient()
     netid = casauth.authenticate().rstrip()
     #netid = "carinal"
-    html = render_template('home.html', netid=netid)
+    tags1 = ['animation', 'applications', 'architecture', 'artificial intelligence', 'assembly language', 'astronomy',
+    'astrophysics', 'bioengineering', 'biology', 'business', 'chemistry', 'compilers', 'computation', 'computer vision',
+    'cryptocurencies and blockchains', 'cryptography', 'data science', 'data structures', 'database programming', 
+    'deep learning', 'design', 'distributed systems', 'environmental systems', 'functional programming', 'geometry']
+    tags2 = ['graphics', 'GUI programming', 'image processing', 'intellectual property', 
+    'linear algebra', 'machine language', 'machine learning', 'mathematics', 'network programming', 'networking', 'NLP', 
+    'NP-completeness', 'nueral networks', 'operating systems', 'optics', 'optimization', 'probability', 'processors', 
+    'quantitative modeling', 'security', 'server design', 'startups', 'statistics', 'systems', 'theory', 'translation', 'web programming']
+    html = render_template('home.html', netid=netid, tags1=tags1, tags2=tags2)
     response = make_response(html)
     return response
 
