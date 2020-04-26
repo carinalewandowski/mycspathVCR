@@ -193,7 +193,7 @@ def about():
 def saved():
     casauth = CASClient()
     netid = casauth.authenticate().rstrip()
-    #netid = 'test'
+    #netid = 'carinal'
 
     # add new path to db
     if request.method == 'POST':
