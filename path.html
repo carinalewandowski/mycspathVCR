@@ -50,6 +50,9 @@
                         <a class="nav-link js-scroll-trigger" href="about">About</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="courseinfo">All Courses</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="saved">Saved Paths</a>
                     </li>
                     <li class="nav-item">
@@ -82,15 +85,15 @@
                 </div>
                 <br>
                 {% endfor %}
-                    {% if bundle.course != '' %}
-                    <div id="div1" name="dragged" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="container text-center">
-                            <input class="lead text-center rounded-input" name="dragged" id="drag_{{bundle.course}}" value="{{ bundle.course }}"
-                                draggable="true" ondragstart="drag(event)">
-                        </div>
+                {% if bundle.course != '' %}
+                <div id="div1" name="dragged" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div class="container text-center">
+                        <input class="lead text-center rounded-input" name="dragged" id="drag_{{bundle.course}}" value="{{ bundle.course }}"
+                            draggable="true" ondragstart="drag(event)">
                     </div>
-                    <br>
-                    {% endif %}
+                </div>
+                <br>
+                {% endif %}
                 {% endfor %}
             </div>
             <form action='saved' method='POST'>
@@ -105,16 +108,17 @@
                     {% endfor %}
                     <div class="row">
                         <span style="width: 50%; float:left">
-                            <button type="submit" class="btn btn-primary" onclick="checkComplete(this.form, document.getElementById('title').value)">Save Path</button>
+                            <button type="submit" class="btn btn-primary" onclick="checkComplete(this.form, document.getElementById('title').value)">Save
+                                Path</button>
                         </span>
                         <span style="width: 50%; float:right">
-                            <input class="lead text-center form-control" placeholder="Enter title here..." name="title" id="title"
-                                style="float: left; width: 350px">
+                            <input class="lead text-center form-control" placeholder="Enter title here..." name="title"
+                                id="title" style="float: left; width: 350px">
                         </span>
                     </div>
                 </div>
+            </form>
         </div>
-        </form>
     </div>
 </body>
 

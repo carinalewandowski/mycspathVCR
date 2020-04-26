@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>MyCSPath: My Profile</title>
+    <title>MyCSPath: All Courses</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body id="page-top" class="bg-white" style="padding-bottom:10%">
+<body id="page-top" class="bg-primary" style="padding-bottom:10%">
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-coral fixed-top" id="mainNav">
@@ -37,43 +37,56 @@
                         <a class="nav-link js-scroll-trigger" href="about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="courseinfo">All Courses</a>
+                        <a class="nav-link js-scroll-trigger" href="courseinfo"><strong>All Courses</strong></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="saved">Saved Paths</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="profile"><strong>My Profile</strong></a>
+                        <a class="nav-link js-scroll-trigger" href="profile">My Profile</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <header class="text-white">
+    <header class="bg-primary text-white">
         <div class="container text-center">
-            <h1 class="shadow-lpurp">My Profile</h1>
-            <p class="lead">View your academic information below.</p>
-            <br>
+            <h1 class="shadow-white">Course Information</h1><br>
+            <p class="lead">View the complete MyCSPath database of courses.</p><br>
         </div>
     </header>
 
-    <!-- Page Content -->
-    <div class="container bg-lpurp text-center" style="border-radius: 30px; max-width: 600px"><br>
-        <p><strong>Netid: </strong> {{ profile.netid }}</p>
-        <p><strong>Name: </strong> {{ profile.user_name }}</p>
-        <p><strong>Year: </strong> {{ profile.class_yr }}</p>
-        <p><strong>Concentration: </strong> {{ profile.degree }} {{ profile.concentration }}</p>
-        <p><strong>Goals: </strong> {{profile.goals}}</p><br>
-    </div>
-    <br><br>
-    <form action='edit_profile' method='POST'>
-        <div class="container text-center">
-            <button type="submit" class="btn btn-primary" style="width: 150px">Edit Profile</button>
+    <body class="bg-primary" style="padding-bottom: 20%">
+        <div class="container bg-white" style="border-radius: 30px; max-width: 700px; padding-bottom: 20px">
+            <br>
+            {% for result in results %}
+            <hr style="line-height: 5px; border-top:1px solid #ece5f0;">
+            <p><strong> {{ result.course }}: {{ result.title }}</strong></p>
+            <hr style="line-height: 5px; border-top:1px solid #ece5f0;">
+            {% if result.crosslistings|length %}
+            <p><strong style="color:#fe4a49">Crosslistings:</strong> {{ ''.join(result.crosslistings) }}</p>
+            {% endif %}
+            {% if result.languages is not none %}
+            <p><strong style="color:#fe4a49">Languages:</strong> {{ ', '.join(result.languages) }}</p>
+            {% endif %}
+            {% if result.tags is not none %}
+            <p><strong style="color:#fe4a49">Interest Areas:</strong> {{ ', '.join(result.tags) }}</p>
+            {% endif %}
+            {% if result.prerequisites|length %}
+            <p><strong style="color:#fe4a49">Prerequisites:</strong> {{ ', '.join(result.prerequisites) }}</p>
+            {% endif %}
+            {% if result.offered == 'FS' %}
+            <p><strong style="color:#fe4a49">Typically Offered:</strong> Fall & Spring</p>
+            {% elif result.offered == 'F' %}
+            <p><strong style="color:#fe4a49">Typically Offered:</strong> Fall</p>
+            {% elif result.offered == 'S' %}
+            <p><strong style="color:#fe4a49">Typically Offered:</strong> Spring</p>
+            {% endif %}
+            <hr style="line-height: 5px; border-top:1px solid #ece5f0; padding-bottom:20px">
+            {% endfor %}
         </div>
-    </form>
-
-
+    </body>
 
     <!-- Footer -->
     <footer class="py-2 bg-coral fixed-bottom">

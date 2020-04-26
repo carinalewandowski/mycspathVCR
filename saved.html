@@ -68,6 +68,9 @@
                         <a class="nav-link js-scroll-trigger" href="about">About</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="courseinfo">All Courses</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="saved"><strong>Saved Paths</strong></a>
                     </li>
                     <li class="nav-item">
@@ -100,25 +103,42 @@
     </div> -->
     <br><br>
     <div class="container text-center">
+        {% if current_dict|length %}
         <div class="row">
             {% for title, path in current_dict.items() %}
             <div class="col-lg-4 col-md-6 mb-4">
-                <div class="dropdown" style="border-radius: 30px">
-                    <span><strong>{{title}}</strong></span>
-                    <div class="dropdown-content" style="border-radius: 30px"><br>
-                        {% for course in path %}
-                        <ul style="list-style-type:circle; color:#2d3142">
-                            <li>
-                                <p class="lead text-charcoal">{{course}}</p>
-                            </li>
-                        </ul>
-                        <hr style="line-height: 5px; border-top:1px solid #2d3142;">
-                        {% endfor %}
+                <form action='delete_path' method='POST'>
+                    <div class="dropdown" style="border-radius: 30px">
+                        <span><strong><input class="text-center text-white" name="title" value="{{ title }}" style="background-color:transparent; border-color: transparent; font-weight: bolder; text-align:center; vertical-align: middle; height: 60px"></strong></span>
+                        <div class="dropdown-content" style="border-radius: 30px"><br>
+                            {% for course in path %}
+                            <ul style="list-style-type:circle; color:#2d3142">
+                                <li>
+                                    <p class="lead text-charcoal">{{course}}</p>
+                                </li>
+                            </ul>
+                            <hr style="line-height: 5px; border-top:1px solid #2d3142;">
+                            {% endfor %}
+                            <div class="container text-center">
+                                <button type="submit" class="btn btn-primary" onclick="confirmDelete(this.form)">Delete
+                                    Path</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
             {% endfor %}
         </div>
+        {% else %}
+        <div class="container text-center bg-white" style="border-radius: 30px; max-width:700px">
+            <br><br>
+            <p class="lead">Looks like you don't have any saved paths right now!</p><br>
+            <form action='home' method="get">
+                <button type="submit" class="btn btn-primary">Click to Get Started</button>
+            </form>
+            <br><br>
+        </div>
+        {% endif %}
         <br><br><br>
     </div>
 
@@ -143,3 +163,14 @@
 </body>
 
 </html>
+
+<script>
+    function confirmDelete(form) {
+        if (confirm("Are you sure you want to delete this path?")) {
+            form.submit();
+        }
+        else {
+            event.preventDefault();
+        }
+    }
+</script>

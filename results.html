@@ -2,13 +2,51 @@
 <html lang="en">
 
 <head>
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            min-width: 500px;
+            height: 35px;
+            text-align: left;
+            font-weight: bold; 
+            font-family: Avenir;
+            line-height: 30px;
+            vertical-align: middle;
+            background-color: #fff;
+            color: #fff;
+        }
+                
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            width: 95%;
+            box-shadow: 0px 8px 16px 0px rgb(45, 49, 66, 0.4);
+            padding: 12px 16px;
+            z-index: 1;
+            line-height: 25px;
+            text-align: left;
+            font-weight: 300;
+        }
+        .dropdown:hover strong {
+            color: #fe4a49;
+            font-weight: bold;
+        }        
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+            padding-block-start: 0%;
+            width: 100%;
+        }
+    </style>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>MyCSPath: Home</title>
+    <title>MyCSPath: Search Results</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
@@ -37,6 +75,9 @@
                         <a class="nav-link js-scroll-trigger" href="about">About</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="courseinfo">All Courses</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="saved">Saved Paths</a>
                     </li>
                     <li class="nav-item">
@@ -50,11 +91,12 @@
     <header class="bg-primary text-white">
         <div class="container text-center">
             <h1 class="shadow-white">The following courses matched at least one of your selections!</h1><br>
-            <p class="lead">Select the courses that interest you most and the prerequisites you've already completed.</p><br><br>
+            <p class="lead">Select the courses that interest you most and the prerequisites you've already completed.<br>Hover
+                over courses for more information.</p><br>
         </div>
     </header>
 
-    <body class="bg-primary text-white" style="padding-bottom: 20%">
+    <!-- <body class="bg-primary text-white" style="padding-bottom: 20%">
         <div class="container bg-white" style="border-radius: 30px; max-width: 700px; padding-bottom: 20px">
             <form action='path' method='POST'>
                 <br>
@@ -69,13 +111,56 @@
                     <label for="prereq">
                         <p>{{ pq }}</p>
                     </label><br>
+                    {% endfor %}
+                </div>
+                <hr style="line-height: 5px; border-top:1px solid #ece5f0;">
+                {% endfor %}
+                <div class="container text-center">
+                    <button type="submit" class="btn btn-primary">Build My Path!</button>
+                </div>
+            </form>
+        </div>
+    </body> -->
+
+    <body class="bg-primary" style="padding-bottom: 20%">
+        <div class="container bg-white" style="border-radius: 30px; max-width: 800px; padding-bottom: 20px">
+            <form action='path' method='POST'>
+                <br>
+                {% for result in results %}
+                <div class="dropdown" style="border-radius: 30px">
+                    <span>
+                        <input type="checkbox" id="{{result.course}}" name="courses" value="{{ result.course }}">
+                        <label for="result">
+                            <p><strong> {{ result.course }}: {{ result.title }}</strong></p>
+                        </label>
+                    </span>
+                    <div class="dropdown-content" style="border-radius: 30px"><br>
+                        <!-- div class="container" style="width: 100%"-->
+                            {% if result.crosslistings|length %}
+                            <p><strong style="color:#fe4a49">Crosslistings:</strong> {{ ''.join(result.crosslistings) }}</p>
+                            {% endif %}
+                            {% if result.languages is not none %}
+                            <p><strong style="color:#fe4a49">Languages:</strong> {{ ', '.join(result.languages) }}</p>
+                            {% endif %}
+                            {% if result.tags is not none %}
+                            <p><strong style="color:#fe4a49">Interest Areas:</strong> {{ ', '.join(result.tags) }}</p>
+                            {% endif %}
+                        <!-- /div -->
+                    </div>
+                </div>
+                <div class="container" style="padding-left: 20px; padding-top: 0px">
+                    {% for pq in result.prerequisites %}
+                    <input type="checkbox" id="{{pq}}" name="prereqs" value="{{ pq }}">
+                    <label for="prereq">
+                        <p> {{ pq }}</p>
+                    </label><br>
                     <!-- p class="lead" style="text-indent: 4em">{{ pq }}</p-->
                     {% endfor %}
                 </div>
                 <hr style="line-height: 5px; border-top:1px solid #ece5f0;">
                 {% endfor %}
                 <div class="container text-center">
-                        <button type="submit" class="btn btn-primary">Build My Path!</button>
+                    <button type="submit" class="btn btn-primary">Build My Path!</button>
                 </div>
             </form>
         </div>

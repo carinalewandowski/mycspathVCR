@@ -35,9 +35,34 @@ class Bundle:
 # --------------------------------------------------------------------------
 # COURSES DATABASE
 # --------------------------------------------------------------------------
+class Tags(base):
+    __tablename__ = 'tags'
+    tag = Column(String, primary_key=True)
+
+    def setup(self):
+        db_string = "postgresql://iwmrbkqwyomjyv:d225ea16492b84cf1dbaafd0c9a805696d8077814197239d92cc4bb692d94cb2@ec2-18-210-51-239.compute-1.amazonaws.com/d6jlofmjviv3dl"
+        db = create_engine(db_string)
+        base = declarative_base()
+        Session = sessionmaker(db)
+        session = Session()
+        results = session.query(Tags)
+        return results
+
+class Languages(base):
+    __tablename__ = 'languages'
+    lang = Column(String, primary_key=True)
+
+    def setup(self):
+        db_string = "postgresql://iwmrbkqwyomjyv:d225ea16492b84cf1dbaafd0c9a805696d8077814197239d92cc4bb692d94cb2@ec2-18-210-51-239.compute-1.amazonaws.com/d6jlofmjviv3dl"
+        db = create_engine(db_string)
+        base = declarative_base()
+        Session = sessionmaker(db)
+        session = Session()
+        results = session.query(Languages)
+        return results
 
 class Database(base):
-    __tablename__ = 'courses_subset'
+    __tablename__ = 'courses'
     course = Column(String, primary_key=True)
     title = Column(String)
     crosslistings = Column(ARRAY(String))
@@ -236,6 +261,12 @@ class Paths(base):
 
     def remove_row(self, result):
         session.delete(result)
+        session.commit()
+
+    def add_row(self, netid, current_dict):
+        row = Paths(netid=netid,
+            paths=current_dict)
+        session.add(row)
         session.commit()
     
     def get_row(self, netid):

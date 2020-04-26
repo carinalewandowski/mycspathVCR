@@ -8,7 +8,7 @@
 
 from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template, session
-from database import Database, Profiles, Paths
+from database import Database, Profiles, Paths, Tags, Languages
 from CASClient import CASClient
 
 app = Flask(__name__, template_folder='.')
@@ -21,6 +21,8 @@ app.secret_key = SECRET_KEY
 database = Database()
 profiles = Profiles()
 paths = Paths()
+db_tags = Tags()
+db_langs = Languages() 
 
 # TESTING
 # database = Database()
@@ -52,15 +54,73 @@ def home():
     casauth = CASClient()
     netid = casauth.authenticate().rstrip()
     #netid = "carinal"
-    tags1 = ['animation', 'architecture', 'artificial intelligence', 'assembly language', 'astronomy',
-    'astrophysics', 'bioengineering', 'biology', 'business', 'chemistry', 'compilers', 'computation', 'computer vision',
-    'cryptocurencies and blockchains', 'cryptography', 'data science', 'data structures', 'database programming', 
-    'deep learning', 'design', 'distributed systems', 'environmental systems', 'functional programming', 'geometry']
-    tags2 = ['graphics', 'GUI programming', 'image processing', 'intellectual property', 
-    'linear algebra', 'machine language', 'machine learning', 'mathematics', 'network programming', 'networking', 'NLP', 
-    'NP-completeness', 'nueral networks', 'operating systems', 'optics', 'optimization', 'probability', 'processors', 
-    'quantitative modeling', 'security', 'server design', 'startups', 'statistics', 'translation', 'web programming']
-    html = render_template('home.html', netid=netid, tags1=tags1, tags2=tags2)
+    
+    # get list of tags from db
+    results = db_tags.setup()
+    tags = []
+    for result in results:
+        tags.append(result.tag)
+    tags.remove('applications')
+    tags.remove('systems')
+    tags.remove('theory')
+    tags.sort()
+    # create columns
+    num_tags = len(tags)
+    col_len = int(num_tags/3)
+    i = 0
+    tags1 = []
+    tags2 = []
+    tags3 = []
+    while i < num_tags:
+        j = 0
+        while j < col_len:
+            tags1.append(tags[i])
+            j+=1
+            i+=1
+        j = 0
+        while j < col_len:
+            tags2.append(tags[i])
+            j+=1
+            i+=1
+        j = 0
+        while j < (num_tags - (2*col_len)):
+            tags3.append(tags[i])
+            j+=1
+            i+=1
+    # get list of languages from db
+    results = db_langs.setup()
+    langs = []
+    for result in results:
+        langs.append(result.lang)
+    # create columns
+    num_langs = len(langs)
+    col_len = int(num_langs/2)
+    i = 0
+    langs1 = []
+    langs2 = []
+    while i < num_langs:
+        j = 0
+        while j < col_len:
+            langs1.append(langs[i])
+            j+=1
+            i+=1
+        j = 0
+        while j < (num_langs - col_len):
+            langs2.append(langs[i])
+            j+=1
+            i+=1
+    
+    html = render_template('home.html', netid=netid, tags1=tags1, tags2=tags2, tags3=tags3, langs1=langs1, langs2=langs2)
+    response = make_response(html)
+    return response
+
+@app.route('/courseinfo')
+def courseinfo():
+    casauth = CASClient()
+    netid = casauth.authenticate().rstrip()
+
+    results = database.setup()
+    html = render_template('courseinfo.html', results=results)
     response = make_response(html)
     return response
 
@@ -133,7 +193,7 @@ def about():
 def saved():
     casauth = CASClient()
     netid = casauth.authenticate().rstrip()
-    #netid = 'dk12'
+    #netid = 'test'
 
     # add new path to db
     if request.method == 'POST':
@@ -144,26 +204,51 @@ def saved():
             print(item)
         print("here")
         paths.add_to_dict(netid, title, path)
-    
+
     # render saved paths on page
     result = paths.get_row(netid)
     current_dict = {}
-    current_dict = result.paths
-    for title, path in current_dict.items():
-        print(title + ":")
-        print("------------")
-        for course in path:
-            print(course)
+    if result is not None:
+        current_dict = result.paths
+        for title, path in current_dict.items():
+            print(title + ":")
+            print("------------")
+            for course in path:
+                print(course)
 
     html = render_template('saved.html', current_dict=current_dict)
     response = make_response(html)
     return response
 
+@app.route('/delete_path', methods=['GET', 'POST'])
+def delete_path():
+    casauth = CASClient()
+    netid = casauth.authenticate().rstrip()
+    #netid = 'test'
+    
+    if request.method == 'POST':
+        # get title of path to remove
+        title = request.form.get('title')
+        print("title: " + title)
+        # get row in db matching current netid
+        row = paths.get_row(netid)
+        current_dict = row.paths
+        # remove 
+        paths.remove_row(row)
+        print("row removed")
+        # update
+        removed = current_dict.pop(title, None)
+        print(removed)
+        paths.add_row(netid, current_dict)
+
+
+    return redirect('/saved')
+
 @app.route('/profile')
 def profile():
     casauth = CASClient()
     netid = casauth.authenticate().rstrip()
-    #netid = "dk12"
+    #netid = "test"
     if not profiles.check_exists(netid):
         html = render_template('profile.html')
         response = make_response(html)
@@ -178,7 +263,7 @@ def profile():
 def profile_saved():
     casauth = CASClient()
     netid = casauth.authenticate().rstrip()
-    #netid = "dk12"
+    #netid = "test"
     if request.method == 'POST':
         btn_type = request.form.get('btn_type')
         if btn_type == 'Save':
@@ -205,7 +290,7 @@ def profile_saved():
 def edit_profile():
     casauth = CASClient()
     netid = casauth.authenticate().rstrip()
-    #netid = "dk12"
+    #netid = "test"
     if request.method == 'POST':
         profile = profiles.get_row(netid)
         html = render_template('edit_profile.html', profile=profile)
@@ -216,5 +301,4 @@ def edit_profile():
 
 # from https://stackabuse.com/deploying-a-flask-application-to-heroku/
 if __name__ == '__main__':
-    # Threaded option to enable multiple instances for multiple user access support
     app.run()
