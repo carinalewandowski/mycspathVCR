@@ -120,7 +120,7 @@ def home():
 
 @app.route('/courseinfo')
 def courseinfo():
-    asauth = CASClient()
+    casauth = CASClient()
     netid = casauth.authenticate().rstrip()
 
     results = database.setup()
