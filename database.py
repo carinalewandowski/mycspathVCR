@@ -35,31 +35,6 @@ class Bundle:
 # --------------------------------------------------------------------------
 # COURSES DATABASE
 # --------------------------------------------------------------------------
-class Tags(base):
-    __tablename__ = 'tags'
-    tag = Column(String, primary_key=True)
-
-    def setup(self):
-        db_string = "postgresql://iwmrbkqwyomjyv:d225ea16492b84cf1dbaafd0c9a805696d8077814197239d92cc4bb692d94cb2@ec2-18-210-51-239.compute-1.amazonaws.com/d6jlofmjviv3dl"
-        db = create_engine(db_string)
-        base = declarative_base()
-        Session = sessionmaker(db)
-        session = Session()
-        results = session.query(Tags)
-        return results
-
-class Languages(base):
-    __tablename__ = 'languages'
-    lang = Column(String, primary_key=True)
-
-    def setup(self):
-        db_string = "postgresql://iwmrbkqwyomjyv:d225ea16492b84cf1dbaafd0c9a805696d8077814197239d92cc4bb692d94cb2@ec2-18-210-51-239.compute-1.amazonaws.com/d6jlofmjviv3dl"
-        db = create_engine(db_string)
-        base = declarative_base()
-        Session = sessionmaker(db)
-        session = Session()
-        results = session.query(Languages)
-        return results
 
 class Database(base):
     __tablename__ = 'courses'
@@ -78,6 +53,7 @@ class Database(base):
         Session = sessionmaker(db)
         session = Session()
         results = session.query(Database)
+        session.close()
         return results
 
     def filter_langs(self, languages):
@@ -332,3 +308,31 @@ for r in filtered_ar2:
     for topic in r.tags:
         print(topic)
     print("\n") """
+
+""" class Tags(base):
+    __tablename__ = 'tags'
+    tag = Column(String, primary_key=True)
+
+    def setup(self):
+        db_string = "postgresql://iwmrbkqwyomjyv:d225ea16492b84cf1dbaafd0c9a805696d8077814197239d92cc4bb692d94cb2@ec2-18-210-51-239.compute-1.amazonaws.com/d6jlofmjviv3dl"
+        db = create_engine(db_string)
+        base = declarative_base()
+        Session = sessionmaker(db)
+        session = Session()
+        results = session.query(Tags)
+        session.close()
+        return results
+
+class Languages(base):
+    __tablename__ = 'languages'
+    lang = Column(String, primary_key=True)
+
+    def setup(self):
+        db_string = "postgresql://iwmrbkqwyomjyv:d225ea16492b84cf1dbaafd0c9a805696d8077814197239d92cc4bb692d94cb2@ec2-18-210-51-239.compute-1.amazonaws.com/d6jlofmjviv3dl"
+        db = create_engine(db_string)
+        base = declarative_base()
+        Session = sessionmaker(db)
+        session = Session()
+        results = session.query(Languages)
+        session.close()
+        return results """

@@ -8,7 +8,7 @@
 
 from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template, session
-from database import Database, Profiles, Paths, Tags, Languages
+from database import Database, Profiles, Paths
 from CASClient import CASClient
 
 app = Flask(__name__, template_folder='.')
@@ -21,8 +21,8 @@ app.secret_key = SECRET_KEY
 database = Database()
 profiles = Profiles()
 paths = Paths()
-db_tags = Tags()
-db_langs = Languages() 
+#db_tags = Tags()
+#db_langs = Languages() 
 
 # TESTING
 # database = Database()
@@ -53,10 +53,10 @@ def landing():
 def home():
     casauth = CASClient()
     netid = casauth.authenticate().rstrip()
-    #netid = "carinal"
+    #netid = "test"
     
     # get list of tags from db
-    results = db_tags.setup()
+    """ results = db_tags.setup()
     tags = []
     for result in results:
         tags.append(result.tag)
@@ -108,15 +108,19 @@ def home():
         while j < (num_langs - col_len):
             langs2.append(langs[i])
             j+=1
-            i+=1
-    
+            i+=1 """
+    tags1 = ['3D modeling', 'GUI programming', 'NLP', 'NP-completeness', 'animation', 'architecture', 'art', 'artificial intelligence', 'assembly language', 'astronomy', 'astrophysics', 'bioengineering', 'biology', 'business', 'chemistry', 'compilers', 'computation', 'computer architecture', 'computer vision', 'cryptocurrencies and blockchains', 'cryptography', 'data science/analysis', 'data structures']
+    tags2 = ['database programming', 'deep learning', 'design', 'distributed systems', 'ecology', 'economics', 'electrical engineering', 'energy', 'environmental systems', 'finance', 'functional programming', 'general programming', 'geometry', 'graphics', 'health care', 'image processing', 'intellectual property', 'language', 'linear algebra', 'machine language', 'machine learning', 'mathematics', 'mechanical & aerospace engineering']
+    tags3 = ['music', 'nanofabrication', 'network programming', 'networking', 'neuroscience', 'nueral networks', 'operating systems', 'optics', 'optimization', 'physics', 'politics', 'probability', 'processors', 'psychology', 'public policy', 'quantitative modeling', 'quantum computing', 'robotics', 'security', 'server design', 'startups', 'statistics', 'system design', 'translation', 'web programming']
+    langs1 = ['AJAX', 'AMPL', 'C', 'C++', 'ChucK', 'CSS', 'EES', 'Flask', 'Go', 'HTML', 'Java', 'JavaScript', 'Jinja2', 'Julia']
+    langs2 = ['Machine Language', 'Mathematica', 'MATLAB', 'Max/MSP', 'OCalm', 'Openfst library', 'PHP', 'Python', 'R', 'SQL', 'Stata', 'Verilog', 'WEKA', 'Wolfram Language']
     html = render_template('home.html', netid=netid, tags1=tags1, tags2=tags2, tags3=tags3, langs1=langs1, langs2=langs2)
     response = make_response(html)
     return response
 
 @app.route('/courseinfo')
 def courseinfo():
-    casauth = CASClient()
+    asauth = CASClient()
     netid = casauth.authenticate().rstrip()
 
     results = database.setup()
@@ -193,7 +197,7 @@ def about():
 def saved():
     casauth = CASClient()
     netid = casauth.authenticate().rstrip()
-    #netid = 'carinal'
+    #netid = 'test'
 
     # add new path to db
     if request.method == 'POST':
@@ -269,6 +273,7 @@ def profile_saved():
         if btn_type == 'Save':
         # get fields from edit form
             name = request.form.get('Name')
+            print(name)
             class_yr = request.form.get('Class Year')
             degree = request.form.get('Degree')
             concentration = request.form.get('Concentration')
