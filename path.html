@@ -79,7 +79,7 @@
                 {% for pq in bundle.prereqs %}
                 <div id="div1" name="dragged" ondrop="drop(event)" ondragover="allowDrop(event)">
                     <div class="container text-center">
-                        <input class="lead text-center rounded-input" name="dragged" id="drag_{{pq}}" value="{{ pq }}"
+                        <input class="lead text-center rounded-input" readonly name="dragged" id="drag_{{pq}}" value="{{ pq }}"
                             draggable="true" ondragstart="drag(event)">
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                 {% if bundle.course != '' %}
                 <div id="div1" name="dragged" ondrop="drop(event)" ondragover="allowDrop(event)">
                     <div class="container text-center">
-                        <input class="lead text-center rounded-input" name="dragged" id="drag_{{bundle.course}}" value="{{ bundle.course }}"
+                        <input class="lead text-center rounded-input" readonly name="dragged" id="drag_{{bundle.course}}" value="{{ bundle.course }}"
                             draggable="true" ondragstart="drag(event)">
                     </div>
                 </div>
