@@ -56,6 +56,10 @@ class Database(base):
         session.close()
         return results
 
+    def get_all(self):
+        results = session.query(Database)
+        return results
+
     def filter_langs(self, languages):
         results = session.query(Database)
         filtered_ar = []

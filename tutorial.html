@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MyCSPath: About</title>
+
+    <!-- Bootstrap core CSS -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.css') }}">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/scrolling-nav.css') }}" rel="stylesheet">
+
+</head>
+
+<body id="page-top" style="background-color: #ffe4e3; padding-top:80px">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-coral fixed-top" id="mainNav" style="height:57px; border-radius: 0;">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="home"><img src="/static/logo2.png" height="38" alt="MyCSPath logo" style="padding-top:8px"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon" style="float:right"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto" style="font-size: 16px; padding-right:0">
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="home" style="display:block; padding-right:8px">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="about" style="display:block; padding-right:8px">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="courseinfo" style="display:block; padding-right:8px">All
+                            Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="saved" style="display:block; padding-right:8px">Saved
+                            Paths</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="profile" style="padding-right:0">My Profile</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <br><br>
+        <p class="text-center" style="font-size:14px">This tutorial is best suited for viewing on a desktop/laptop with a larger screen size.</p>
+    </div>
+    <div class="container" style="padding-left:10%; padding-right:10%; padding-top: 5px">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel" style="z-index: 5000">
+            <!-- Indicators -->
+            <ol class="carousel-indicators" style="padding-top: 10%">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#myCarousel" data-slide-to="3"></li>
+                <li data-target="#myCarousel" data-slide-to="4"></li>
+                <li data-target="#myCarousel" data-slide-to="5"></li>
+                <li data-target="#myCarousel" data-slide-to="6"></li>
+                <li data-target="#myCarousel" data-slide-to="7"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="/static/t1.png" alt="tutorial1" style="max-width:100%">
+                </div>
+
+                <div class="item">
+                    <img src="/static/t2.png" alt="tutorial2" style="max-width:100%">
+                </div>
+
+                <div class="item">
+                    <img src="/static/t3.png" alt="tutorial3" style="max-width:100%">
+                </div>
+
+                <div class="item">
+                    <img src="/static/t4.png" alt="tutorial4" style="max-width:100%">
+                </div>
+
+                <div class="item">
+                    <img src="/static/t5.png" alt="tutorial5" style="max-width:100%">
+                </div>
+
+                <div class="item">
+                    <img src="/static/t6.png" alt="tutorial6" style="max-width:100%">
+                </div>
+
+                <div class="item">
+                    <img src="/static/t7.png" alt="tutorial7" style="max-width:100%">
+                </div>
+
+                <div class="item">
+                    <img src="/static/t8.png" alt="tutorial8" style="max-width:100%">
+                </div>
+            </div>
+        </div>
+
+        <!-- Left and right controls -->
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="py-2 bg-coral fixed-bottom">
+        <div class="container">
+            <p class="m-0 text-center text-white" style="font-size: 16px; padding: 3px 3px">Copyright &copy; MyCSPath
+                2020</p>
+        </div>
+        <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom JavaScript for this theme -->
+    <script src="js/scrolling-nav.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>

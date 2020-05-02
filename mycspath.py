@@ -136,12 +136,18 @@ def results():
     if request.method == 'POST':
         langs = request.form.getlist('lang')
         tags = request.form.getlist('tag')
+
+        if not (len(langs) or len(tags)):
+            results = database.get_all()
+            total = 0
+            msg = "Looks like you didn't select any filters, so here is our complete list of courses."
+        else:
+            results_tags = database.filter_tags(tags)
+            results_langs = database.filter_langs(langs)
+            results = database.merge_results(results_langs, results_tags)
+            msg = "The following courses matched at least one of your selections!"
         
-        results_tags = database.filter_tags(tags)
-        results_langs = database.filter_langs(langs)
-        results = database.merge_results(results_langs, results_tags)
-        
-        html = render_template('results.html', results=results)
+        html = render_template('results.html', results=results, msg=msg)
         response = make_response(html)
         return response
 
@@ -186,10 +192,19 @@ def path():
 
 @app.route('/about')
 def about():
-    casauth = CASClient()
+    auth = CASClient()
     netid = casauth.authenticate().rstrip()
 
     html = render_template('about.html')
+    response = make_response(html)
+    return response
+
+@app.route('/tutorial')
+def tutorial():
+    auth = CASClient()
+    netid = casauth.authenticate().rstrip()
+
+    html = render_template('tutorial.html')
     response = make_response(html)
     return response
 
