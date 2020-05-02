@@ -136,15 +136,15 @@
                     </span>
                     <div class="dropdown-content" style="border-radius: 30px"><br>
                         <!-- div class="container" style="width: 100%"-->
-                            {% if result.crosslistings|length %}
-                            <p><strong style="color:#fe4a49">Crosslistings:</strong> {{ ''.join(result.crosslistings) }}</p>
-                            {% endif %}
-                            {% if result.languages is not none %}
-                            <p><strong style="color:#fe4a49">Languages:</strong> {{ ', '.join(result.languages) }}</p>
-                            {% endif %}
-                            {% if result.tags is not none %}
-                            <p><strong style="color:#fe4a49">Interest Areas:</strong> {{ ', '.join(result.tags) }}</p>
-                            {% endif %}
+                        {% if result.crosslistings|length %}
+                        <p><strong style="color:#fe4a49">Crosslistings:</strong> {{ ''.join(result.crosslistings) }}</p>
+                        {% endif %}
+                        {% if result.languages is not none %}
+                        <p><strong style="color:#fe4a49">Languages:</strong> {{ ', '.join(result.languages) }}</p>
+                        {% endif %}
+                        {% if result.tags is not none %}
+                        <p><strong style="color:#fe4a49">Interest Areas:</strong> {{ ', '.join(result.tags) }}</p>
+                        {% endif %}
                         <!-- /div -->
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                 <hr style="line-height: 5px; border-top:1px solid #ece5f0;">
                 {% endfor %}
                 <div class="container text-center">
-                    <button type="submit" class="btn btn-primary">Build My Path!</button>
+                    <button type="submit" class="btn btn-primary" onclick="checkComplete(this.form)">Build My Path!</button>
                 </div>
             </form>
         </div>
@@ -187,3 +187,23 @@
 </body>
 
 </html>
+<script>
+    function checkComplete(form) {
+        var x = document.getElementsByName("courses");
+        var i;
+        var allEmpty = 1;
+        for (i = 0; i < x.length; i++) {
+            if (x[i].checked) {
+                allEmpty = 0;
+            }
+        }
+
+        if (allEmpty) {
+            alert("You haven't selected any courses! Please make selections to continue.");
+            event.preventDefault();
+        }
+        else {
+            form.submit();
+        }
+    }
+</script>
