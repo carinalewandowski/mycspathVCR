@@ -192,7 +192,7 @@ def path():
 
 @app.route('/about')
 def about():
-    auth = CASClient()
+    casauth = CASClient()
     netid = casauth.authenticate().rstrip()
 
     html = render_template('about.html')
@@ -201,7 +201,7 @@ def about():
 
 @app.route('/tutorial')
 def tutorial():
-    auth = CASClient()
+    casauth = CASClient()
     netid = casauth.authenticate().rstrip()
 
     html = render_template('tutorial.html')
