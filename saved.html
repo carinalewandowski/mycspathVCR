@@ -109,7 +109,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <form action='delete_path' method='POST'>
                     <div class="dropdown" style="border-radius: 30px">
-                        <span><strong><input class="text-center text-white" name="title" value="{{ title }}" style="background-color:transparent; border-color: transparent; font-weight: bolder; text-align:center; vertical-align: middle; height: 60px"></strong></span>
+                        <span><strong><input class="text-center text-white" readonly name="title" value="{{ title }}" style="background-color:transparent; border-color: transparent; font-weight: bolder; text-align:center; vertical-align: middle; height: 60px"></strong></span>
                         <div class="dropdown-content" style="border-radius: 30px"><br>
                             {% for course in path %}
                             <ul style="list-style-type:circle; color:#2d3142">
