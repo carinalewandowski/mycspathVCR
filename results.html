@@ -6,8 +6,8 @@
         .dropdown {
             position: relative;
             display: inline-block;
-            min-width: 500px;
-            height: 35px;
+            width: 100%;
+            min-height: 35px;
             text-align: left;
             font-weight: bold; 
             font-family: Avenir;
@@ -139,7 +139,7 @@
                         {% if result.crosslistings|length %}
                         <p><strong style="color:#fe4a49">Crosslistings:</strong> {{ ''.join(result.crosslistings) }}</p>
                         {% endif %}
-                        {% if result.languages is not none %}
+                        {% if result.languages|length %}
                         <p><strong style="color:#fe4a49">Languages:</strong> {{ ', '.join(result.languages) }}</p>
                         {% endif %}
                         {% if result.tags is not none %}
