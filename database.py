@@ -1,4 +1,3 @@
-# my database: postgresql://iwmrbkqwyomjyv:d225ea16492b84cf1dbaafd0c9a805696d8077814197239d92cc4bb692d94cb2@ec2-18-210-51-239.compute-1.amazonaws.com/d6jlofmjviv3dl
 # --------------------------------------------------------------------------
 #
 # MyCSPath
@@ -19,7 +18,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.dialects.postgresql import ARRAY, INTEGER, JSON
 
 # PostgreSQL URL
-db_string = "postgresql://iwmrbkqwyomjyv:d225ea16492b84cf1dbaafd0c9a805696d8077814197239d92cc4bb692d94cb2@ec2-18-210-51-239.compute-1.amazonaws.com/d6jlofmjviv3dl"
+db_string = "TEMP_REMOVED"
 
 # connect to database
 db = create_engine(db_string)
